@@ -1,4 +1,4 @@
-# cvms
+# CVM-S(cvms)
 
 Southern California Velocity Model developed by SCEC, Caltech and USGS 
 with geotechnical layer
