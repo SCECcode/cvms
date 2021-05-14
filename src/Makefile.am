@@ -34,6 +34,7 @@ install: all
 	mkdir -p ${libdir}
 	mkdir -p ${includedir}
 	mkdir -p ${prefix}/src
+	chmod +r *
 	cp libcvms.a ${libdir}
 	cp libcvms.so ${libdir}
 	cp cvms.h ${includedir}
