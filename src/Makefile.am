@@ -3,9 +3,9 @@ lib_LIBRARIES = libcvms.a
 bin_PROGRAMS = cvms_txt cvms_bin
 
 # General compiler/linker flags
-AM_CFLAGS = ${CFLAGS}
+AM_CFLAGS = ${CFLAGS} -fPIC
 AM_LDFLAGS = ${LDFLAGS}
-AM_FCFLAGS = ${FCFLAGS}
+AM_FCFLAGS = ${FCFLAGS} -fPIC
 
 TARGETS = cvms_txt cvms_bin libcvms.a libcvms.so
 
