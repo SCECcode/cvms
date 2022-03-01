@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <getopt.h>
 #include "unittest_defs.h"
-#include "test_grid.h"
+#include "test_grid_exec.h"
 
 
 int main (int argc, char *argv[])
@@ -20,7 +20,7 @@ int main (int argc, char *argv[])
   }
 
   /* Run test suites */
-  suite_grid(xmldir);
+  suite_grid_exec(xmldir);
 
   return 0;
 }

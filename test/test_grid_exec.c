@@ -1,3 +1,9 @@
+/**
+   test_grid_exec.c
+
+   invoke src/run_cvms_txt
+**/
+
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -8,36 +14,39 @@
 #include <getopt.h>
 #include "unittest_defs.h"
 #include "test_helper.h"
-#include "test_grid.h"
+#include "test_grid_exec.h"
 
 
 int test_cvms_txt()
 {
-  char infile[128];
-  char outfile[128];
-  char reffile[128];
-  char currentdir[128];
+  char infile[1280];
+  char outfile[1280];
+  char reffile[1280];
+  char currentdir[1280];
 
-  printf("Test: cvms_txt executable w/ large grid\n");
+  printf("Test: model with large grid\n");
 
   /* Save current directory */
-  getcwd(currentdir, 128);
+  getcwd(currentdir, 1280);
 
-  sprintf(infile, "%s/%s", currentdir, "test-grid.in");
+  sprintf(infile, "%s/%s", currentdir, "./inputs/test-grid.in");
   sprintf(outfile, "%s/%s", currentdir, "test-grid.out");
-  sprintf(reffile, "%s/%s", currentdir, "test-extract.ref");
+  sprintf(reffile, "%s/%s", currentdir, "./ref/test-grid-extract.ref");
 
-  if (test_assert_int(run_cvms_txt("../src", infile, outfile), 0) != 0) {
+  if (test_assert_int(runCVMSTxt(BIN_DIR, infile, outfile), 0) != 0) {
     printf("cvm_txt failure\n");
     return(1);
   }
 
   /* Perform diff btw outfile and ref */
   if (test_assert_file(outfile, reffile) != 0) {
+    printf("unmatched result\n");
+    printf("%s\n",outfile);
+    printf("%s\n",reffile);
     return(1);
   }
 
-  unlink(outfile);
+//  unlink(outfile);
 
   printf("PASS\n");
   return(0);
@@ -45,14 +54,14 @@ int test_cvms_txt()
 
 
 
-int suite_grid(const char *xmldir)
+int suite_grid_exec(const char *xmldir)
 {
   suite_t suite;
   char logfile[256];
   FILE *lf = NULL;
 
   /* Setup test suite */
-  strcpy(suite.suite_name, "suite_grid");
+  strcpy(suite.suite_name, "suite_grid_exec");
   suite.num_tests = 1;
   suite.tests = malloc(suite.num_tests * sizeof(test_t));
   if (suite.tests == NULL) {

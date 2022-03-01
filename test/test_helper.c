@@ -1,3 +1,6 @@
+/** 
+  test_helper.c  
+**/
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
@@ -9,14 +12,15 @@
 
 
 /* Execute cvms_txt as a child process */
-int run_cvms_txt(const char *cvmdir, const char *infile, const char *outfile)
+int runCVMSTxt(const char *bindir, const char *infile, const char *outfile)
 {
-  char currentdir[128];
+  char currentdir[1280];
+  char runpath[1280];
 
-  printf("Running cmd: cvms_txt %s %s\n", infile, outfile);
+  sprintf(runpath,"%s/run_cvms_txt.sh", bindir);
 
   /* Save current directory */
-  getcwd(currentdir, 128);
+  getcwd(currentdir, 1280);
   
   /* Fork process */
   pid_t pid;
@@ -26,13 +30,12 @@ int run_cvms_txt(const char *cvmdir, const char *infile, const char *outfile)
     return(1);
   } else if (pid == 0) {
     /* Change dir to cvmdir */
-    if (chdir(cvmdir) != 0) {
+    if (chdir(bindir) != 0) {
       printf("FAIL: Error changing dir in runfortran\n");
       return(1);
     }
 
-    execl( "./run_cvms_txt.sh", "./run_cvms_txt.sh", infile, outfile, 
-	   (char *)0);
+    execl( runpath, runpath, infile, outfile, (char *)0);
     perror("execl"); /* shall never get to here */
     printf("FAIL: CVM exited abnormally\n");
     return(1);

@@ -1,3 +1,4 @@
+#define _DEFAULT_SOURCE  /* Required for gethostname */
 #include <unistd.h>
 #include <string.h>
 #include <sys/time.h>

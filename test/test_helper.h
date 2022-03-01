@@ -4,7 +4,7 @@
 #include "cvms.h"
 
 /* Execute cvms_txt as a child process */
-int run_cvms_txt(const char *cvmdir, const char *infile, const char *outfile);
+int runCVMSTxt(const char *bindir, const char *infile, const char *outfile);
 
 
 #endif

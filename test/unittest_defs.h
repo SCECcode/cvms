@@ -10,6 +10,9 @@
 
 #define MAX_TEST_NAME 32
 
+// Location of binaries
+#define BIN_DIR "../src"
+
 /* Test  datatype */
 typedef struct test_t {
   char class_name[MAX_TEST_NAME];
