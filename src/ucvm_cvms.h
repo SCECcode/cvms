@@ -56,6 +56,12 @@ typedef struct cvms_properties_t {
 
 /** The CVMS configuration structure. */
 typedef struct cvms_configuration_t {
+  char label[UCVM_MAX_LABEL_LEN];
+  ucvm_region_t region;
+  char config[UCVM_MAX_PATH_LEN];
+  char extconfig[UCVM_MAX_PATH_LEN];
+} ucvm_modelconf_t;
+
 XXX
         /** The zone of UTM projection */
         int utm_zone;
