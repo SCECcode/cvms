@@ -85,6 +85,7 @@ int model_query(cvms_point_t *points, cvms_properties_t *data, int numpts);
 /** Setparam */
 int model_setparam(int, int, int);
 
+
 #endif
 
 // CVMS Related Functions

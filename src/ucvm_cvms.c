@@ -12,7 +12,7 @@
 #include "ucvm_cvms.h"
 
 /* Init flag */
-int ucvm_cvms_init_flag = 0;
+int cvms_is_initialized = 0;
 
 /* Buffers initialized flag */
 int cvms_buf_init = 0;
@@ -32,7 +32,6 @@ float *cvms_vp = NULL;
 float *cvms_vs = NULL;
 float *cvms_rho = NULL;
 
-
 **
  * Initializes the CVM-S plugin model within the UCVM framework. In order to initialize
  * the model, we must provide the UCVM install path and optionally a place in memory
@@ -44,19 +43,18 @@ float *cvms_rho = NULL;
  */
 /* Init CVM-S */
 int cvms_init(const char *dir, const char *label) {
-//int ucvm_cvms_model_init(int id, ucvm_modelconf_t *conf)
 
+  char configbuf[512];
   int errcode;
   /* Fortran fixed string length */
   char modeldir[CVMS_FORTRAN_MODELDIR_LEN];
 
-  if (ucvm_cvms_init_flag) {
+  if (cvms_is_initialized) {
     fprintf(stderr, "Model %s is already initialized\n", conf->label);
     return(UCVM_CODE_ERROR);
   }
 
-  int buflen=strlen(dir)+strlen(label)+50; // throw in some extra
-  char *configbuf=malloc(buflen*sizeof(int));
+  char configbuf[512];
 
   // Initialize variables.
   cvms_configuration = calloc(1, sizeof(cvms_configuration_t));
@@ -71,11 +69,12 @@ int cvms_init(const char *dir, const char *label) {
   }
 
   // model's data location
-  if (strlen(conf->config) >= CVMS_FORTRAN_MODELDIR_LEN) {
+  int pathlen=strlen(dir)+strlen(label)+strlen(cvms_configuration->model_dir); // throw in some extra
+  if (pathlen >= CVMS_FORTRAN_MODELDIR_LEN) {
     fprintf(stderr, "Config path too long for model %s\n", conf->label);
     return(UCVM_CODE_ERROR);
   }
-  ucvm_strcpy(modeldir, conf->config, CVMS_FORTRAN_MODELDIR_LEN);
+  sprintf(modeldir, "%s/model/%s/data/%s/", dir, label, cvms_configuration->model_dir);
 
   cvms_init_(modeldir, &errcode);
   if (errcode != 0) {
@@ -100,15 +99,16 @@ int cvms_init(const char *dir, const char *label) {
   /* Save model conf */
   memcpy(&cvms_configuration, conf, sizeof(ucvm_modelconf_t));
 
-  ucvm_cvms_init_flag = 1;
+  cvms_is_initialized = 1;
 
   free(configbuf);
   return(UCVM_CODE_SUCCESS);
 }
 
+XXX cvms_read_configuration(configbuf, cvms_configuration) != SUCCESS) {
 
 /* Finalize CVM-S */
-int ucvm_cvms_model_finalize()
+int cvms_finalize()
 {
   if (cvms_buf_init == 1) {
     free(cvms_index);
@@ -118,8 +118,9 @@ int ucvm_cvms_model_finalize()
     free(cvms_vp);
     free(cvms_vs);
     free(cvms_rho);
+    cvms_buf_init = 0;
   }
-  ucvm_cvms_init_flag = 0;
+  cvms_is_initialized = 0;
   return(UCVM_CODE_SUCCESS);
 }
 
@@ -183,6 +184,16 @@ int ucvm_cvms_model_setparam(int id, int param, ...)
 
 
 /* Query CVM-S */
+
+/**
+ * Queries CVM-S at the given points and returns the data that it finds.
+ *
+ * @param points The points at which the queries will be made.
+ * @param data The data that will be returned (Vp, Vs, density, Qs, and/or Qp).
+ * @param numpoints The total number of points to query.
+ * @return SUCCESS or FAIL.
+ */
+int cvms_query(cvms_point_t *points, cvms_properties_t *data, int numpoints) {
 int ucvm_cvms_model_query(int id, ucvm_ctype_t cmode,
 			  int n, ucvm_point_t *pnt, 
 			  ucvm_data_t *data)
