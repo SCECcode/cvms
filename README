@@ -5,7 +5,7 @@ CVM-S4 README
 
 $ aclocal
 $ autoconf
-$ automake
+$ automake --add-missing
 $ ./configure --prefix=/dir/to/install
 $ make
 $ make install

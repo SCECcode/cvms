@@ -20,14 +20,21 @@ cvms_bin: cvms_main.f cvms_sub.f iobin.f
 cvms_mpi: cvms_main.f cvms_sub.f iompi.f
 	$(FC) $(AM_FCFLAGS) $^ -o $@
 
-libcvms.a: cvms_sub.o
+libcvms.a: cvms_sub.o cvms_static.o
 	$(AR) rcs $@ $^
 
-libcvms.so: cvms_sub.o
+libcvms.so: cvms_sub.o cvms.o
 	$(FC) -shared $(AM_CFLAGS) -o libcvms.so $^
 	
 cvms_sub.o: cvms_sub.f
 	$(FC) $(AM_FCFLAGS) -o $@ -c $^
+
+cvms.o: cvms.c
+	$(CC) -fPIC -DDYNAMIC_LIBRARY -o $@ -c $^ $(AM_CFLAGS)
+
+cvms_static.o: cvms.c
+	$(CC) -o $@ -c $^ $(AM_CFLAGS)
+
 
 install: all
 	mkdir -p ${prefix}

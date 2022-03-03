@@ -13,23 +13,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdarg.h>
+
+#include "ucvm_model_dtypes.h"
 
 /* Fortran constants */
 #define CVMS_FORTRAN_MODELDIR_LEN 128
 #define CVMS_FORTRAN_VERSION_LEN 64
 
-#define CVMS_COORD_GEO_DEPTH 0
-#define CVMS_COORD_GEO_ELEV 1
-
 /* Maximum number of points to query */
 #define CVMS_MAX_POINTS 1000000
-
-/** Defines a return value of success */
-#define SUCCESS 0
-/** Defines a return value of failure */
-#define FAIL 1
-/** Defines a return value of NA from model */
-#define NA -1
 
 // Structures
 /** Defines a point (latitude, longitude, and depth) in WGS84 format */
@@ -78,6 +71,8 @@ int model_version(char *ver, int len);
 int model_query(cvms_point_t *points, cvms_properties_t *data, int numpts);
 /** Setparam */
 int model_setparam(int, int, int);
+
+#endif
 
 // CVMS Related Functions
 
