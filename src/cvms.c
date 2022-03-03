@@ -1,5 +1,5 @@
-/**
- * @file ucvm_cvms.c
+/* 
+ * @file cvms.c
  * @brief Main file for CVMS library.
  * @author - SCEC 
  * @version 
@@ -7,18 +7,15 @@
  * @section DESCRIPTION
  *
  *
-**/
+ */
 
-#include "ucvm_cvms.h"
+#include "cvms.h"
 
 /* Init flag */
 int cvms_is_initialized = 0;
 
 /* Buffers initialized flag */
 int cvms_buf_init = 0;
-
-/* Model ID */
-int ucvm_cvms_id = UCVM_SOURCE_NONE;
 
 /* Model conf */
 cvms_configuration_t *cvms_configuration;
@@ -32,7 +29,7 @@ float *cvms_vp = NULL;
 float *cvms_vs = NULL;
 float *cvms_rho = NULL;
 
-**
+/* 
  * Initializes the CVM-S plugin model within the UCVM framework. In order to initialize
  * the model, we must provide the UCVM install path and optionally a place in memory
  * where the model already exists.
@@ -41,7 +38,6 @@ float *cvms_rho = NULL;
  * @param label A unique identifier for the velocity model.
  * @return Success or failure, if initialization was successful.
  */
-/* Init CVM-S */
 int cvms_init(const char *dir, const char *label) {
 
   char configbuf[512];
@@ -50,7 +46,7 @@ int cvms_init(const char *dir, const char *label) {
   char modeldir[CVMS_FORTRAN_MODELDIR_LEN];
 
   if (cvms_is_initialized) {
-    fprintf(stderr, "Model %s is already initialized\n", conf->label);
+    cvms_print_error("Model %s is already initialized\n", conf->label);
     return(UCVM_CODE_ERROR);
   }
 
@@ -64,21 +60,21 @@ int cvms_init(const char *dir, const char *label) {
 
   // Read the cvms_configuration file.
   if (cvms_read_configuration(configbuf, cvms_configuration) != SUCCESS) {
-    fprintf(stderr, "Model configuration can not be accessed\n");
+    cvms_print_error("Model configuration can not be accessed.");
     return(UCVM_CODE_ERROR);
   }
 
   // model's data location
   int pathlen=strlen(dir)+strlen(label)+strlen(cvms_configuration->model_dir); // throw in some extra
   if (pathlen >= CVMS_FORTRAN_MODELDIR_LEN) {
-    fprintf(stderr, "Config path too long for model %s\n", conf->label);
+    cvms_print_error("Config path too long.");
     return(UCVM_CODE_ERROR);
   }
   sprintf(modeldir, "%s/model/%s/data/%s/", dir, label, cvms_configuration->model_dir);
 
   cvms_init_(modeldir, &errcode);
   if (errcode != 0) {
-    fprintf(stderr, "Failed to init CVM-S\n");
+    cvms_print_error("Failed to init CVM-S");
     return(UCVM_CODE_ERROR);
   }
 
@@ -105,9 +101,55 @@ int cvms_init(const char *dir, const char *label) {
   return(UCVM_CODE_SUCCESS);
 }
 
-XXX cvms_read_configuration(configbuf, cvms_configuration) != SUCCESS) {
+/**
+ * Reads the cvms_configuration file describing the various properties of CVM-S and populates
+ * the cvms_configuration struct. This assumes cvms_configuration has been "calloc'ed" and validates
+ * that each value is not zero at the end.
+ *
+ * @param file The cvms_configuration file location on disk to read.
+ * @param config The cvms_configuration struct to which the data should be written.
+ * @return Success or failure, depending on if file was read successfully.
+ */
+int cvms_read_configuration(char *file, cvms5_configuration_t *config) {
+  FILE *fp = fopen(file, "r");
+  char key[40];
+  char value[80];
+  char line_holder[128];
 
-/* Finalize CVM-S */
+  // If our file pointer is null, an error has occurred. Return fail.
+  if (fp == NULL) {
+    cvms_print_error("Could not open the cvms5_configuration file.");
+    return FAIL;
+  }
+
+  // Read the lines in the cvms_configuration file.
+  while (fgets(line_holder, sizeof(line_holder), fp) != NULL) {
+    if (line_holder[0] != '#' && line_holder[0] != ' ' && line_holder[0] != '\n') {
+      sscanf(line_holder, "%s = %s", key, value);
+
+      // Which variable are we editing?
+      if (strcmp(key, "utm_zone") == 0) config->utm_zone = atoi(value);
+      if (strcmp(key, "model_dir") == 0) printf(config->model_dir, "%s", value);
+    }
+  }
+
+  // Have we set up all cvms5_configuration parameters?
+  if (config->utm_zone == 0) {
+    cvms_print_error("One cvms_configuration parameter not specified. Please check your cvms_configuration file.");
+    return FAIL;
+  }
+
+  fclose(fp);
+
+  return SUCCESS;
+}
+
+
+/* 
+ * Called when the model is being discarded. Free all variables.
+ *
+ * @return SUCCESS
+ */
 int cvms_finalize()
 {
   if (cvms_buf_init == 1) {
@@ -124,64 +166,61 @@ int cvms_finalize()
   return(UCVM_CODE_SUCCESS);
 }
 
-
+/* 
+ * Returns the version information.
+ *
+ * @param ver Version string to return.
+ * @param len Maximum length of buffer.
+ * @return Zero
+ */
 /* Version CVM-S */
-int ucvm_cvms_model_version(int id, char *ver, int len)
+int cvms_version(char *ver, int len)
 {
   int errcode;
   /* Fortran fixed string length */
   char verstr[CVMS_FORTRAN_VERSION_LEN];
 
-  if (id != ucvm_cvms_id) {
-    fprintf(stderr, "Invalid model id\n");
-    return(UCVM_CODE_ERROR);
-  }
-
   cvms_version_(verstr, &errcode);
   if (errcode != 0) {
-    fprintf(stderr, "Failed to retrieve version from CVM-S\n");
+    cvms_print_error("Failed to retrieve version from CVM-S");
     return(UCVM_CODE_ERROR);
   }
 
-  ucvm_strcpy(ver, verstr, len);
+  strncpy(ver, verstr, len);
   return(UCVM_CODE_SUCCESS);
 }
 
 
-/* Label CVM-S */
-int ucvm_cvms_model_label(int id, char *lab, int len)
-{
-  if (id != ucvm_cvms_id) {
-    fprintf(stderr, "Invalid model id\n");
-    return(UCVM_CODE_ERROR);
-  }
-
-  ucvm_strcpy(lab, cvms_configuration.label, len);
-  return(UCVM_CODE_SUCCESS);
-}
-
-
-/* Setparam CVM-S */
-int ucvm_cvms_model_setparam(int id, int param, ...)
+/**
+ * setparam CVM-S 
+ *
+ * @param points The points at which the queries will be made.
+ */
+int cvms_setparam(int id, int param, ...)
 {
   va_list ap;
-
-  if (id != ucvm_cvms_id) {
-    fprintf(stderr, "Invalid model id\n");
-    return(UCVM_CODE_ERROR);
-  }
+  int zmode;
 
   va_start(ap, param);
+
   switch (param) {
-  default:
-    break;
+    case CVMS_PARAM_QUERY_MODE:
+      zmode = va_arg(ap,int);
+      switch (zmode) {
+        case CVMS_COORD_GEO_DEPTH:
+        case CVMS_COORD_GEO_ELEV:
+          /* point from ucvm is always for depth */
+          break;
+        default:
+          cvms_print_error("Unsupported coord type\n");
+          return(UCVM_CODE_ERROR);
+          break;
+       }
+       break;
   }
-
   va_end(ap);
-
-  return(UCVM_CODE_SUCCESS);
+  return SUCCESS;
 }
-
 
 /* Query CVM-S */
 
@@ -193,10 +232,7 @@ int ucvm_cvms_model_setparam(int id, int param, ...)
  * @param numpoints The total number of points to query.
  * @return SUCCESS or FAIL.
  */
-int cvms_query(cvms_point_t *points, cvms_properties_t *data, int numpoints) {
-int ucvm_cvms_model_query(int id, ucvm_ctype_t cmode,
-			  int n, ucvm_point_t *pnt, 
-			  ucvm_data_t *data)
+int cvms_query(cvms_point_t *pnt, cvms_properties_t *data, int numpoints) {
 {
   int i, j;
   int nn = 0;
@@ -205,27 +241,12 @@ int ucvm_cvms_model_query(int id, ucvm_ctype_t cmode,
   int errcode;
 
   if (cvms_buf_init == 0) {
+    cvms_print_error("Model data is inaccessible");
     return(UCVM_CODE_ERROR);
-  }
-
-  if (id != ucvm_cvms_id) {
-    fprintf(stderr, "Invalid model id\n");
-    return(UCVM_CODE_ERROR);
-  }
-
-  /* Check query mode */
-  switch (cmode) {
-  case UCVM_COORD_GEO_DEPTH:
-  case UCVM_COORD_GEO_ELEV:
-    break;
-  default:
-    fprintf(stderr, "Unsupported coord type\n");
-    return(UCVM_CODE_ERROR);
-    break;
   }
 
   nn = 0;
-  for (i = 0; i < n; i++) {
+  for (i = 0; i < numpoints; i++) {
     if ((data[i].crust.source == UCVM_SOURCE_NONE) && 
 	((data[i].domain == UCVM_DOMAIN_INTERP) || 
 	 (data[i].domain == UCVM_DOMAIN_CRUST)) &&
@@ -292,16 +313,78 @@ int ucvm_cvms_model_query(int id, ucvm_ctype_t cmode,
 }
 
 
-/* Fill model structure with CVM-S */
-int ucvm_cvms_get_model(ucvm_model_t *m)
-{
-  m->mtype = UCVM_MODEL_CRUSTAL;
-  m->init = ucvm_cvms_model_init;
-  m->finalize = ucvm_cvms_model_finalize;
-  m->getversion = ucvm_cvms_model_version;
-  m->getlabel = ucvm_cvms_model_label;
-  m->setparam = ucvm_cvms_model_setparam;
-  m->query = ucvm_cvms_model_query;
-
-  return(UCVM_CODE_SUCCESS);
+/**
+ * Prints the error string provided.
+ *
+ * @param err The error string to print out to stderr.
+ */
+void cvms_print_error(char *err) {
+  fprintf(stderr, "An error has occurred while executing CVM-S . The error was:\n\n");
+  fprintf(stderr, "%s", err);
+  fprintf(stderr, "\n\nPlease contact software@scec.org and describe both the error and a bit\n");
+  fprintf(stderr, "about the computer you are running CVM-S on (Linux, Mac, etc.).\n");
 }
+
+// The following functions are for dynamic library mode. If we are compiling
+// a static library, these functions must be disabled to avoid conflicts.
+#ifdef DYNAMIC_LIBRARY
+
+/**
+ * Init function loaded and called by the UCVM library. Calls cvms_init.
+ *
+ * @param dir The directory in which UCVM is installed.
+ * @return Success or failure.
+ */
+int model_init(const char *dir, const char *label) {
+	return cvms_init(dir, label);
+}
+
+/**
+ * Query function loaded and called by the UCVM library. Calls cvms_query.
+ *
+ * @param points The basic_point_t array containing the points.
+ * @param data The basic_properties_t array containing the material properties returned.
+ * @param numpoints The number of points in the array.
+ * @return Success or fail.
+ */
+int model_query(cvms_point_t *points, cvms_properties_t *data, int numpoints) {
+	return cvms_query(points, data, numpoints);
+}
+
+/**
+ * Finalize function loaded and called by the UCVM library. Calls cvms_finalize.
+ *
+ * @return Success
+ */
+int model_finalize() {
+	return cvms_finalize();
+}
+
+/**
+ * Version function loaded and called by the UCVM library. Calls cvms_version.
+ *
+ * @param ver Version string to return.
+ * @param len Maximum length of buffer.
+ * @return Zero
+ */
+int model_version(char *ver, int len) {
+	return cvms_version(ver, len);
+}
+
+int (*get_model_init())(const char *, const char *) {
+        return &cvms_init;
+}
+int (*get_model_query())(cvms_point_t *, cvms_properties_t *, int) {
+         return &cvms_query;
+}
+int (*get_model_finalize())() {
+         return &cvms_finalize;
+}
+int (*get_model_version())(char *, int) {
+         return &cvms_version;
+}
+int (*get_model_setparam())(int, int, ...) {
+         return &cvms_setparam;
+}
+
+#endif
