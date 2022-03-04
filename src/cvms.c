@@ -121,7 +121,7 @@ int cvms_read_configuration(char *file, cvms_configuration_t *config) {
 
       // Which variable are we editing?
       if (strcmp(key, "utm_zone") == 0) config->utm_zone = atoi(value);
-      if (strcmp(key, "model_dir") == 0) printf(config->model_dir, "%s", value);
+      if (strcmp(key, "model_dir") == 0) sprintf(config->model_dir, "%s", value);
     }
   }
 
@@ -353,6 +353,20 @@ int model_finalize() {
 int model_version(char *ver, int len) {
 	return cvms_version(ver, len);
 }
+
+/**
+ * Setparam function loaded and called by the UCVM library. Calls cvms_setparam.
+ *
+ * @param id  don'care
+ * @param param
+ * @param val, it is actually just 1 int
+ * @return Success or fail.
+ */
+int model_setparam(int id, int param, int val) {
+        return cvms_setparam(id, param, val);
+}
+
+
 
 int (*get_model_init())(const char *, const char *) {
         return &cvms_init;

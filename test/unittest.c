@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <getopt.h>
 #include "unittest_defs.h"
+#include "test_cvms_exec.h"
 
 
 int main (int argc, char *argv[])
@@ -16,7 +17,7 @@ int main (int argc, char *argv[])
   }
 
   /* Run test suites */
-  fprintf(stderr, "No unit tests currently defined\n");
+  suite_cvms_exec(xmldir);
 
   return 0;
 }

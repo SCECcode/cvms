@@ -13,9 +13,10 @@ c RWG 2007/04/04
          rpath=modeldir(1:128)
          loc1= index(rpath,achar(0))-1
 
-c         write(*,*)' modeldir=',modeldir
-c         write(*,*)' ecode=',ecode
-c         write(*,*)' loc1=',loc1
+c        write(0,*)' rpath=',rpath
+c        write(0,*)' modeldir=',modeldir
+c        write(0,*)' ecode=',ecode
+c        write(0,*)' loc1=',loc1
 
          if (loc1.lt.0) then
             write(*,*)' CVM-S error, invalid modeldir path'
