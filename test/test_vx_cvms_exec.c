@@ -16,7 +16,6 @@
 #include <getopt.h>
 #include "unittest_defs.h"
 #include "test_helper.h"
-#include "test_vx_cvms_exec.h"
 
 int VX_TESTS=1;
 
