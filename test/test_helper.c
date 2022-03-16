@@ -10,6 +10,7 @@
 #include "unittest_defs.h"
 #include "test_helper.h"
 
+int debug_mode = 0;
 
 int test_assert_file_exist(const char* filename)
 {
