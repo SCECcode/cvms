@@ -24,7 +24,7 @@ all: $(bin_PROGRAMS)
 # Executables
 ############################################
 
-unittest: unittest.o unittest_defs.o test_helper.o test_cvms_exec.o
+unittest: unittest.o unittest_defs.o test_helper.o test_cvms_exec.o test_vx_cvms_exec.o
 	$(CC) -o $@ $^ $(AM_LDFLAGS)
 
 run_unit: unittest
