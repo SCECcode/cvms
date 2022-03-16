@@ -2,7 +2,7 @@
 #define CVMS_H
 
 /**
- * @file ucvm_cvms.h
+ * @file cvms.h
  * @brief Main header file for CVMS library.
  * @author - SCEC
  * @version 

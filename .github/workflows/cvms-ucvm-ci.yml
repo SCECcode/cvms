@@ -1,0 +1,130 @@
+name: cvms-ucvm-ci
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  cvms-build-ucvm-mac:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        python-version: [3.7]
+    steps:
+    - name: set UCVM_SRC_PATH 
+      run: echo "UCVM_SRC_PATH=$RUNNER_WORKSPACE/cvms/ucvm" >> $GITHUB_ENV
+    - name: set UCVM_INSTALL_PATH 
+      run: echo "UCVM_INSTALL_PATH=$RUNNER_WORKSPACE/cvms/target" >> $GITHUB_ENV
+### build ucvm(basin) first 
+    - id: get-ucvm 
+      uses: actions/checkout@v2
+      with: 
+        repository: 'SCECcode/UCVM'
+        ref: basin
+        path: ucvm
+    - id: look-around
+      run: ( echo " cvms-ucvm-ci:pwd =>";pwd;
+             echo " cvms-ucvm-ci:UCVM_SRC_PATH =>"$UCVM_SRC_PATH;
+             echo " cvms-ucvm-ci:UCVM_INSTALL_PATH =>"$UCVM_INSTALL_PATH;
+             echo " cvms-ucvm-ci:RUNNER_WORKSPACE =>"$RUNNER_WORKSPACE;
+             echo " cvms-ucvm-ci:github.action_path =>"${{ github.action_path }};)
+      shell: bash
+    - id: build-ucvm
+      uses: SCECcode/UCVM/.github/actions/build-action@v1
+      with:
+         initiating-repo: 'cvms'
+         target-model: 'cvms'
+    - id: get-result
+      run: more ${{ steps.build-ucvm.outputs.build-log }}
+      shell: bash
+    - name: move stock cvms away
+      run: (rm -rf $RUNNER_WORKSPACE/cvms/ucvm/work/model/cvms)
+      shell: bash
+### build cvms from github 
+    - name: checkout cvms main
+      uses: actions/checkout@v2
+      with: 
+        path: cvms
+    - name: move it to the right location
+      run: (mv cvms $RUNNER_WORKSPACE/cvms/ucvm/work/model; pwd; ls)
+      shell: bash
+    - name: build cvms as part of ucvm 
+      run: (cd $RUNNER_WORKSPACE/cvms/ucvm/work/model/cvms; ./.github/scripts/cvms-build.sh)
+      shell: bash
+### check ucvm is still valid
+    - name: check on ucvm
+      run: (source $UCVM_INSTALL_PATH/conf/ucvm_env.sh; ucvm_query -H)
+      shell: bash
+    - name: test cvms with ucvm
+      run: (cd $RUNNER_WORKSPACE/cvms/ucvm/work/model/cvms; source $UCVM_INSTALL_PATH/conf/ucvm_env.sh; ./.github/scripts/cvms-test-ucvm.sh)
+      shell: bash
+#    - name: Start SSH via Ngrok
+#      if: ${{ success() }}
+#      uses: luchihoratiu/debug-via-ssh@main
+#      with:
+#            NGROK_AUTH_TOKEN: ${{ secrets.NGROK_TOKEN }}
+#            NGROK_TIMEOUT: 3000
+#            SSH_PASS: ${{ secrets.NGROK_SECRET }}
+    - name: test cvms under ucvm
+      run: (cd $RUNNER_WORKSPACE/cvms/ucvm; source $UCVM_INSTALL_PATH/conf/ucvm_env.sh; ./.github/scripts/ucvm-test.sh)
+      shell: bash
+
+  cvms-build-ucvm-linux:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.7]
+    steps:
+    - name: set UCVM_SRC_PATH 
+      run: echo "UCVM_SRC_PATH=$RUNNER_WORKSPACE/cvms/ucvm" >> $GITHUB_ENV
+    - name: set UCVM_INSTALL_PATH 
+      run: echo "UCVM_INSTALL_PATH=$RUNNER_WORKSPACE/cvms/target" >> $GITHUB_ENV
+### build ucvm(basin) first 
+    - id: get-ucvm 
+      uses: actions/checkout@v2
+      with: 
+        repository: 'SCECcode/UCVM'
+        ref: basin
+        path: ucvm
+    - id: build-ucvm
+      uses: SCECcode/UCVM/.github/actions/build-action@v1
+      with:
+         initiating-repo: 'cvms'
+         target-model: 'cvms'
+    - id: get-result
+      run: more ${{ steps.build-ucvm.outputs.build-log }}
+      shell: bash
+    - name: move stock cvms away
+      run: (rm -rf $RUNNER_WORKSPACE/cvms/ucvm/work/model/cvms)
+      shell: bash
+### build cvms from github 
+    - name: checkout cvms main
+      uses: actions/checkout@v2
+      with: 
+        path: cvms
+    - name: move it to the right location
+      run: (mv cvms $RUNNER_WORKSPACE/cvms/ucvm/work/model; pwd; ls)
+      shell: bash
+    - name: build cvms as part of ucvm 
+      run: (cd $RUNNER_WORKSPACE/cvms/ucvm/work/model/cvms; ./.github/scripts/cvms-build.sh)
+      shell: bash
+### check ucvm is still valid
+    - name: check on ucvm
+      run: (source $UCVM_INSTALL_PATH/conf/ucvm_env.sh; ucvm_query -H)
+      shell: bash
+    - name: test cvms with ucvm
+      run: (cd $RUNNER_WORKSPACE/cvms/ucvm/work/model/cvms; source $UCVM_INSTALL_PATH/conf/ucvm_env.sh; ./.github/scripts/cvms-test-ucvm.sh)
+      shell: bash
+#    - name: Start SSH via Ngrok
+#      if: ${{ success() }}
+#      uses: luchihoratiu/debug-via-ssh@main
+#      with:
+#            NGROK_AUTH_TOKEN: ${{ secrets.NGROK_TOKEN }}
+#            NGROK_TIMEOUT: 3000
+#            SSH_PASS: ${{ secrets.NGROK_SECRET }}
+    - name: test cvms under ucvm
+      run: (cd $RUNNER_WORKSPACE/cvms/ucvm; source $UCVM_INSTALL_PATH/conf/ucvm_env.sh; ./.github/scripts/ucvm-test.sh)
+      shell: bash
+
+
+

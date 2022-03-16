@@ -3,7 +3,7 @@
 
 AC_INIT([CVM-S], [4], [davidgil@usc.edu])
 AC_CONFIG_SRCDIR([src])
-AM_INIT_AUTOMAKE()
+AM_INIT_AUTOMAKE([foreign no-exeext])
 AC_PROG_RANLIB
 
 # Checks for libraries.
