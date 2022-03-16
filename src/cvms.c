@@ -70,7 +70,7 @@ int cvms_init(const char *dir, const char *label) {
   }
   sprintf(modeldir, "%s/model/%s/data/%s/", dir, label, cvms_configuration->model_dir);
 
-  cvms_init_(modeldir, &errcode);
+  cvms_init_(modeldir, &errcode, CVMS_FORTRAN_MODELDIR_LEN);
   if (errcode != 0) {
     cvms_print_error("Failed to init CVM-S");
     return(UCVM_CODE_ERROR);
@@ -172,7 +172,7 @@ int cvms_version(char *ver, int len)
   /* Fortran fixed string length */
   char verstr[CVMS_FORTRAN_VERSION_LEN];
 
-  cvms_version_(verstr, &errcode);
+  cvms_version_(verstr, &errcode, CVMS_FORTRAN_MODELDIR_LEN);
   if (errcode != 0) {
     cvms_print_error("Failed to retrieve version from CVM-S");
     return UCVM_CODE_ERROR;

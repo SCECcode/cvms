@@ -14,4 +14,7 @@ int runCVMSTxt(const char *bindir, const char *infile, const char *outfile);
 int runCVMS(const char *bindir, const char *cvmdir,
           const char *infile, const char *outfile, int mode);
 
+int runVXWFCVM(const char *bindir, const char *cvmdir,
+          const char *infile, const char *outfile);
+
 #endif

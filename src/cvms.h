@@ -94,10 +94,10 @@ void cvms_print_error(char *err);
 
 // Fortran forward delcaration
 /* Initializer. Modeldir buffer must be 128 bytes in size */
-void cvms_init_(char *modeldir, int *errcode);
+void cvms_init_(char *modeldir, int *errcode, int);
 
 /* Get version ID. Version string buffer must be 64 bytes in size */
-void cvms_version_(char *ver, int *errcode);
+void cvms_version_(char *ver, int *errcode, int);
 
 /* Query CVM-S */
 void cvms_query_(int *nn, 

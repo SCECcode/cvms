@@ -1,15 +1,19 @@
 # Autoconf/Automake binaries and headers
 lib_LIBRARIES = libcvms.a
-bin_PROGRAMS = cvms_txt cvms_bin
+bin_PROGRAMS = vx_cvms cvms_txt cvms_bin
 
 # General compiler/linker flags
 AM_CFLAGS = ${CFLAGS} -fPIC
-AM_LDFLAGS = ${LDFLAGS}
+AM_LDFLAGS = ${LDFLAGS} -lm -gfortran
 AM_FCFLAGS = ${FCFLAGS} -fPIC
+#AM_FCFLAGS = -fcheck=all -Wall -g -fbacktrace ${FCFLAGS} -fPIC
 
-TARGETS = cvms_txt cvms_bin libcvms.a libcvms.so
+TARGETS = vx_cvms cvms_txt cvms_bin libcvms.a libcvms.so
 
 all: $(bin_PROGRAMS) $(lib_LIBRARIES) libcvms.so
+
+vx_cvms : vx_cvms.o libcvms.a
+	$(CC) -o $@ $^ $(AM_LDFLAGS)
 
 cvms_txt: cvms_main.f cvms_sub.f iotxt.f
 	$(FC) $(AM_FCFLAGS) $^ -o $@
@@ -47,4 +51,4 @@ install: all
 	find ./* -maxdepth 0 ! -name libcvms.a ! -name '*.f' ! -name '*.o' ! -name 'Makefile*' ! -exec cp '{}' '${prefix}/src' \;
 
 clean:
-	rm -rf *.o *~ cvms_txt cvms_bin cvms_mpi *.a
+	rm -rf *.o *~ vx_cvms cvms_txt cvms_bin cvms_mpi *.a
