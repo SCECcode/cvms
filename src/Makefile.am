@@ -4,9 +4,9 @@ bin_PROGRAMS = vx_cvms cvms_txt cvms_bin
 
 # General compiler/linker flags
 AM_CFLAGS = ${CFLAGS} -fPIC
-AM_LDFLAGS = ${LDFLAGS} -lm -gfortran
-AM_FCFLAGS = ${FCFLAGS} -fPIC
-#AM_FCFLAGS = -fcheck=all -Wall -g -fbacktrace ${FCFLAGS} -fPIC
+AM_LDFLAGS = ${LDFLAGS} -lm -lgfortran
+#AM_FCFLAGS = ${FCFLAGS} -fPIC
+AM_FCFLAGS = -fcheck=all -Wall -g -fbacktrace ${FCFLAGS} -fPIC
 
 TARGETS = vx_cvms cvms_txt cvms_bin libcvms.a libcvms.so
 
