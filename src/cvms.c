@@ -228,7 +228,6 @@ int cvms_query(cvms_point_t *pnt, cvms_properties_t *data, int numpoints) {
   int i, j;
   int nn = 0;
   double depth;
-  int datagap = 0;
   int errcode;
 
   if (cvms_buf_init == 0) {
@@ -272,10 +271,12 @@ int cvms_query(cvms_point_t *pnt, cvms_properties_t *data, int numpoints) {
 	  nn = 0;
 	}
         } else {
-	  datagap = 1;
+          // skip the one with bad depth
     }
+  }
 
-    if (nn > 0) {
+  // what is left over or over flown ..
+  if (nn > 0) {
       cvms_query_(&nn, cvms_lon, cvms_lat, cvms_dep, 
 		  cvms_vp, cvms_vs, cvms_rho, &errcode);
       if (errcode == 0) {
@@ -285,11 +286,6 @@ int cvms_query(cvms_point_t *pnt, cvms_properties_t *data, int numpoints) {
 	  data[cvms_index[j]].rho = (double)cvms_rho[j];
         }
       }
-    }
-    }
-
-  if (datagap) {
-    return UCVM_CODE_DATAGAP;
   }
 
   return UCVM_CODE_SUCCESS;
