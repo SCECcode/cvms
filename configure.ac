@@ -1,7 +1,7 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_INIT([CVM-S], [4], [davidgil@usc.edu])
+AC_INIT([CVM-S], [4])
 AC_CONFIG_SRCDIR([src])
 AM_INIT_AUTOMAKE([foreign no-exeext])
 AC_PROG_RANLIB
@@ -38,6 +38,5 @@ AC_FUNC_FORK
 AC_FUNC_MALLOC
 AC_CHECK_FUNCS([getcwd gethostname gettimeofday memset])
 
-AC_CONFIG_FILES([Makefile data/Makefile src/Makefile
-                 test/Makefile])
+AC_CONFIG_FILES([Makefile data/Makefile src/Makefile test/Makefile])
 AC_OUTPUT

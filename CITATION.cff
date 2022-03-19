@@ -10,7 +10,6 @@ title: "Southern California Velocity Model with geotechnical layer(cvms)"
 version: 3.0
 type: software
 date-released: 2022-03-31
-version: 1.0
 repository-code: "https://github.com/SCECcode/cvms.git"
 contact:
   - email: software@scec.org
