@@ -97,13 +97,13 @@ int test_query_by_depth()
       return(1);
   }
 
-  if ((test_assert_double(ret.vs, 1569.190063), 0) != 0) {
+  if ((test_assert_double(ret.vs, 1564.248535), 0) != 0) {
       return(1);
   }
-  if ((test_assert_double(ret.vp, 3180.260498), 0) != 0) {
+  if ((test_assert_double(ret.vp, 2963.767090), 0) != 0) {
       return(1);
   }
-  if ((test_assert_double(ret.vp, 3180.260498), 0) != 0) {
+  if ((test_assert_double(ret.rho, 2332.978760), 0) != 0) {
       return(1);
   }
   // printf("Query was successful.\n");
@@ -148,13 +148,13 @@ int test_query_by_elevation()
       return(1);
   }
 
-  if ((test_assert_double(ret.vs, 1569.190063), 0) != 0) {
+  if ((test_assert_double(ret.vs, 1586.550659), 0) != 0) {
       return(1);
   }
-  if ((test_assert_double(ret.vp, 3180.260498), 0) != 0) {
+  if ((test_assert_double(ret.vp, 2996.268555), 0) != 0) {
       return(1);
   }
-  if ((test_assert_double(ret.vp, 3180.260498), 0) != 0) {
+  if ((test_assert_double(ret.rho, 2338.110840), 0) != 0) {
       return(1);
   }
   //printf("Query was successful.\n");
