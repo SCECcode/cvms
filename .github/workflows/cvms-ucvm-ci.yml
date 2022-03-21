@@ -30,7 +30,7 @@ jobs:
              echo " cvms-ucvm-ci:github.action_path =>"${{ github.action_path }};)
       shell: bash
     - id: build-ucvm
-      uses: SCECcode/UCVM/.github/actions/build-action@v1
+      uses: ./ucvm/.github/actions/build-ucvm-action
       with:
          initiating-repo: 'cvms'
          target-model: 'cvms'
@@ -87,7 +87,7 @@ jobs:
         ref: basin
         path: ucvm
     - id: build-ucvm
-      uses: SCECcode/UCVM/.github/actions/build-action@v1
+      uses: ./ucvm/.github/actions/build-ucvm-action
       with:
          initiating-repo: 'cvms'
          target-model: 'cvms'
