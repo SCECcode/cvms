@@ -13,7 +13,7 @@ TARGETS = vx_cvms cvms_txt cvms_bin libcvms.a libcvms.so
 all: $(bin_PROGRAMS) $(lib_LIBRARIES) libcvms.so
 
 vx_cvms : vx_cvms.o libcvms.a
-	$(CC) -o $@ $^ $(AM_LDFLAGS)
+	$(FC) -o $@ $^ $(AM_LDFLAGS)
 
 cvms_txt: cvms_main.f cvms_sub.f iotxt.f
 	$(FC) $(AM_FCFLAGS) $^ -o $@
