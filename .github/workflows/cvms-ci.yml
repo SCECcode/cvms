@@ -23,7 +23,7 @@ jobs:
       run: ./.github/scripts/cvms-build.sh 
       shell: bash
     - name: test cvms standalone
-      run: ./.github/scripts/cvms-test.sh
+      run: ./.github/scripts/cvms-test-standalone.sh
       shell: bash
 
   cvms-build-standalone-linux:
@@ -44,6 +44,6 @@ jobs:
       run: ./.github/scripts/cvms-build.sh
       shell: bash
     - name: test cvms standalone
-      run: ./.github/scripts/cvms-test.sh
+      run: ./.github/scripts/cvms-test-standalone.sh
       shell: bash
 
