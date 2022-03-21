@@ -136,7 +136,7 @@ int runVXCVMS(const char *bindir, const char *cvmdir,
 {
   char currentdir[1280];
   char runpath[1280];
-  char flags[1280];
+  char flags[1280]="";
 
   sprintf(runpath, "%s/run_vx_cvms.sh", bindir);
 
