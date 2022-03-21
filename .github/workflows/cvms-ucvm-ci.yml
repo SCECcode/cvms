@@ -2,7 +2,7 @@ name: cvms-ucvm-ci
 
 on:
   push:
-    branches: [ main ]
+    branches: [ dev ]
 
 jobs:
   cvms-build-ucvm-mac:
