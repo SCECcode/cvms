@@ -57,6 +57,7 @@ vp, vs, density).
 Binary query interface reads a configuration file named 'cvm-input' with the following 
 items:
 
+<pre>
 line 1: number of points
 line 2: path to input lon file
 line 3: path to input lat file
@@ -64,6 +65,7 @@ line 4: path to input dep file
 line 5: path to output rho file
 line 6: path to output vp file
 line 7: path to output vs file
+</pre>
 
 The input and output files are in binary (float) format, with each
 containing the number of points specified on line 1. 
@@ -73,6 +75,7 @@ containing the number of points specified on line 1.
 Reads a configuration file named 'cvm-input' with the following 
 items:
 
+<pre>
 line 1: number of points
 line 2: path to input lon file
 line 3: path to input lat file
@@ -80,6 +83,7 @@ line 4: path to input dep file
 line 5: path to output rho file
 line 6: path to output vp file
 line 7: path to output vs file
+</pre>
 
 The input and output files are in binary (float) format, with each
 containing the number of points specified on line 1. 
