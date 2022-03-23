@@ -1,5 +1,5 @@
 /*
- * @file vx_cvms.c
+ * @file cvms_query.c
  * @brief Bootstraps the test framework for the CVMS library.
  * @author - SCEC
  * @version 1.0
@@ -28,9 +28,9 @@ int _compare_double(double f1, double f2) {
 
 /* Usage function */
 void usage() {
-  printf("     vx_cvms - (c) SCEC\n");
+  printf("     cvms_query - (c) SCEC\n");
   printf("Extract velocities from a CVMS\n");
-  printf("\tusage: vx_cvms [-d][-h] < file.in\n\n");
+  printf("\tusage: cvms_query [-d][-h] < file.in\n\n");
   printf("Flags:\n");
   printf("\t-d enable debug/verbose mode\n\n");
   printf("\t-h usage\n\n");

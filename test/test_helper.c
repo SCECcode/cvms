@@ -131,14 +131,14 @@ int runCVMS(const char *bindir, const char *cvmdir,
 
 
 
-int runVXCVMS(const char *bindir, const char *cvmdir,
+int runCVMSQuery(const char *bindir, const char *cvmdir,
           const char *infile, const char *outfile)
 {
   char currentdir[1280];
   char runpath[1280];
   char flags[1280]="";
 
-  sprintf(runpath, "%s/run_vx_cvms.sh", bindir);
+  sprintf(runpath, "%s/run_cvms_query.sh", bindir);
 
   if(debug_mode) { strcat(flags, "-d "); }
 
@@ -154,7 +154,7 @@ int runVXCVMS(const char *bindir, const char *cvmdir,
   } else if (pid == 0) {
     /* Change dir to cvmdir */
     if (chdir(bindir) != 0) {
-      printf("FAIL: Error changing dir in run_vx_cvms.sh\n");
+      printf("FAIL: Error changing dir in run_cvms_query.sh\n");
       return(1);
     }
 

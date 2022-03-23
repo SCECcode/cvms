@@ -3,7 +3,7 @@
 # Process options
 FLAGS=""
 
-# Pass along any arguments to vx_cvms
+# Pass along any arguments to cvms_query
 while getopts 'dh' OPTION
 do
   if [ "$OPTARG" != "" ]; then
@@ -25,7 +25,7 @@ IN_FILE=$1
 OUT_FILE=$2
 OO=$3
 
-${SCRIPT_DIR}/vx_cvms ${FLAGS} < ${IN_FILE} > ${OUT_FILE}
+${SCRIPT_DIR}/cvms_query ${FLAGS} < ${IN_FILE} > ${OUT_FILE}
 
 if [ $? -ne 0 ]; then
     exit 1
