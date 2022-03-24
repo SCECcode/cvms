@@ -23,7 +23,6 @@ fi
 SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
 IN_FILE=$1
 OUT_FILE=$2
-OO=$3
 
 ${SCRIPT_DIR}/cvms_query ${FLAGS} < ${IN_FILE} > ${OUT_FILE}
 
