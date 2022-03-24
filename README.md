@@ -45,11 +45,15 @@ Fortran compiler wrapper.
 
 As part of [UCVM](https://github.com/SCECcode/ucvm) installation, use 'cvms' as the model.
 
+### cvms_query
+
+ASCII query interface(C api) accepts points from stdin with format (lat, lon, dep (m)) and write
+data material p roperties to stdout.
+
 ### cvms_txt
 
-
-ASCII query interface accepts points from stdin with format (lat, lon, dep (m)) and 
-writes data material properties to std out with format (lat, lon, dep, 
+ASCII query interface(Fortran api) accepts points from stdin with format (lat, lon, dep (m)) 
+and writes data material properties to stdout with format (lat, lon, dep, 
 vp, vs, density).
 
 ### cvms_bin
