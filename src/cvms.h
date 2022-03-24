@@ -3,7 +3,7 @@
 
 /**
  * @file cvms.h
- * @brief Main header file for CVMS library.
+ * @brief Main header file for CVM-S library.
  * @author - SCEC
  * @version 
  *
@@ -49,7 +49,7 @@ typedef struct cvms_properties_t {
         double qs;
 } cvms_properties_t;
 
-/** The CVMS configuration structure. */
+/** The CVM-S configuration structure. */
 typedef struct cvms_configuration_t {
         /** The zone of UTM projection */
         int utm_zone;
@@ -74,7 +74,7 @@ int model_setparam(int, int, int);
 
 #endif
 
-// CVMS Related Functions
+// CVM-S Related Functions
 
 /** Initializes the model */
 int cvms_init(const char *dir, const char *label);

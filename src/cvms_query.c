@@ -1,10 +1,10 @@
 /*
  * @file cvms_query.c
- * @brief Bootstraps the test framework for the CVMS library.
+ * @brief Bootstraps the test framework for the CVM-S library.
  * @author - SCEC
  * @version 1.0
  *
- * Tests the CVMS library by loading it and executing the code as
+ * Tests the CVM-S library by loading it and executing the code as
  * UCVM would.
  *
  */
@@ -29,7 +29,7 @@ int _compare_double(double f1, double f2) {
 /* Usage function */
 void usage() {
   printf("     cvms_query - (c) SCEC\n");
-  printf("Extract velocities from a CVMS\n");
+  printf("Extract velocities from a CVM-S\n");
   printf("\tusage: cvms_query [-d][-h] < file.in\n\n");
   printf("Flags:\n");
   printf("\t-d enable debug/verbose mode\n\n");
@@ -43,7 +43,7 @@ extern char *optarg;
 extern int optind, opterr, optopt;
 
 /**
- * Initializes and CVMS in standalone mode with ucvm plugin 
+ * Initializes and CVM-S in standalone mode with ucvm plugin 
  * api.
  *
  * @param argc The number of arguments.
@@ -106,4 +106,9 @@ int main(int argc, char* const argv[]) {
 	printf("Model closed successfully.\n");
 
 	return 0;
+              if(rc == 0) {
+                printf("vs : %lf vp: %lf rho: %lf\n",ret.vs, ret.vp, ret.rho);
+                } else {
+                   printf("BAD: %lf %lf %lf\n",pt.longitude, pt.latitude, pt.depth);
+              }
 }
