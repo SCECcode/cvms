@@ -106,9 +106,4 @@ int main(int argc, char* const argv[]) {
 	printf("Model closed successfully.\n");
 
 	return 0;
-              if(rc == 0) {
-                printf("vs : %lf vp: %lf rho: %lf\n",ret.vs, ret.vp, ret.rho);
-                } else {
-                   printf("BAD: %lf %lf %lf\n",pt.longitude, pt.latitude, pt.depth);
-              }
 }
