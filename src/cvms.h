@@ -24,6 +24,9 @@
 /* Maximum number of points to query */
 #define CVMS_MAX_POINTS 1000000
 
+/* config string */
+#define CVMS_CONFIG_MAX 1000
+
 // Structures
 /** Defines a point (latitude, longitude, and depth) in WGS84 format */
 typedef struct cvms_point_t {

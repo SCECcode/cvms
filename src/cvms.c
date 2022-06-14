@@ -20,6 +20,10 @@ int cvms_buf_init = 0;
 /* Model conf */
 cvms_configuration_t *cvms_configuration;
 
+/** The config of the model */
+char *cvms_config_string=NULL;
+int cvms_config_sz=0;
+
 /* Query buffers */
 int *cvms_index = NULL;
 float *cvms_lon = NULL;
@@ -44,6 +48,10 @@ int cvms_init(const char *dir, const char *label) {
   int errcode;
   /* Fortran fixed string length */
   char modeldir[CVMS_FORTRAN_MODELDIR_LEN];
+  cvms_config_string = calloc(CVMS_CONFIG_MAX, sizeof(char));
+  cvms_config_string[0]='\0';
+  cvms_config_sz=0;
+
 
   if (cvms_is_initialized) {
     cvms_print_error("Model is already initialized\n");
@@ -87,6 +95,10 @@ int cvms_init(const char *dir, const char *label) {
     cvms_rho = malloc(CVMS_MAX_POINTS*sizeof(float));
     cvms_buf_init = 1;
   }
+
+  /* setup config_string  interp=0 or interp= 1*/
+  sprintf(cvms_config_string,"config = %s\n",configbuf);
+  cvms_config_sz=1;
 
   cvms_is_initialized = 1;
 
@@ -154,6 +166,7 @@ int cvms_finalize()
     free(cvms_rho);
     cvms_buf_init = 0;
   }
+  free(cvms_config_string);
   cvms_is_initialized = 0;
   return UCVM_CODE_SUCCESS;
 }
@@ -182,6 +195,22 @@ int cvms_version(char *ver, int len)
   return UCVM_CODE_SUCCESS;
 }
 
+/**
+ * Returns the model config information.
+ *
+ * @param key Config key string to return.
+ * @return Zero
+ */
+int cvms_config(char **config, int *sz)
+{
+  int len=strlen(cvms_config_string);
+  if(len > 0) {
+    *config=cvms_config_string;
+    *sz=cvms_config_sz;
+    return UCVM_CODE_SUCCESS;
+  }
+  return UCVM_CODE_ERROR;
+}
 
 /**
  * setparam CVM-S 
