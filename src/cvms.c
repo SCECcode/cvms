@@ -96,7 +96,7 @@ int cvms_init(const char *dir, const char *label) {
     cvms_buf_init = 1;
   }
 
-  /* setup config_string  interp=0 or interp= 1*/
+  /* setup config_string */
   sprintf(cvms_config_string,"config = %s\n",configbuf);
   cvms_config_sz=1;
 
