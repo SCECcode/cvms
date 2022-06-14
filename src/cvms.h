@@ -70,6 +70,8 @@ int model_init(const char *dir, const char *label);
 int model_finalize();
 /** Returns version information */
 int model_version(char *ver, int len);
+/** Returns config information */
+int model_config(char **config, int *sz);
 /** Queries the model */
 int model_query(cvms_point_t *points, cvms_properties_t *data, int numpts);
 /** Setparam */
@@ -85,6 +87,8 @@ int cvms_init(const char *dir, const char *label);
 int cvms_finalize();
 /** Returns version information */
 int cvms_version(char *ver, int len);
+/** Returns config information */
+int cvms_config(char **config, int *sz);
 /** Queries the model */
 int cvms_query(cvms_point_t *points, cvms_properties_t *data, int numpts);
 /** Setparam*/
