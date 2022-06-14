@@ -166,7 +166,7 @@ int cvms_finalize()
     free(cvms_rho);
     cvms_buf_init = 0;
   }
-  free(cvms_config_string);
+  if (cvms_config_string) free(cvms_config_string);
   cvms_is_initialized = 0;
   return UCVM_CODE_SUCCESS;
 }
@@ -199,6 +199,7 @@ int cvms_version(char *ver, int len)
  * Returns the model config information.
  *
  * @param key Config key string to return.
+ * @param sz Number of config term to return.
  * @return Zero
  */
 int cvms_config(char **config, int *sz)
