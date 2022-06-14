@@ -381,6 +381,17 @@ int model_version(char *ver, int len) {
 }
 
 /**
+ * Version function loaded and called by the UCVM library. Calls cvms_config.
+ *
+ * @param ver Config string to return.
+ * @param sz sz of configs.
+ * @return Zero
+ */
+int model_config(char **config, int *sz) {
+	return cvms_version(config, sz);
+}
+
+/**
  * Setparam function loaded and called by the UCVM library. Calls cvms_setparam.
  *
  * @param id  don'care
@@ -406,11 +417,9 @@ int (*get_model_finalize())() {
 int (*get_model_version())(char *, int) {
          return &cvms_version;
 }
-
 int (*get_model_config())(char **, int*) {
          return &cvms_config;
 }
-
 int (*get_model_setparam())(int, int, ...) {
          return &cvms_setparam;
 }
