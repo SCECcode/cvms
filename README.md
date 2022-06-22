@@ -23,7 +23,7 @@ The Southern California Velocity Model developed by SCEC, Caltech and USGS with 
 ## Installation
 
 This package is intended to be installed as part of the UCVM framework,
-version 19.4.0 or higher. 
+version 22.7.0 or higher. 
 
 This package can also be installed standalone.
 
