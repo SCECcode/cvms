@@ -34,13 +34,13 @@ jobs:
       with:
          initiating-repo: 'cvms'
          target-model: 'cvms'
-    - name: Start SSH via Ngrok
-      if: ${{ failure() }}
-      uses: luchihoratiu/debug-via-ssh@main
-      with:
-            NGROK_AUTH_TOKEN: ${{ secrets.NGROK_TOKEN }}
-            NGROK_TIMEOUT: 3000
-            SSH_PASS: ${{ secrets.NGROK_SECRET }}
+#    - name: Start SSH via Ngrok
+#      if: ${{ failure() }}
+#      uses: luchihoratiu/debug-via-ssh@main
+#      with:
+#            NGROK_AUTH_TOKEN: ${{ secrets.NGROK_TOKEN }}
+#            NGROK_TIMEOUT: 3000
+#            SSH_PASS: ${{ secrets.NGROK_SECRET }}
     - id: get-result
       run: more ${{ steps.build-ucvm.outputs.build-log }}
       shell: bash
