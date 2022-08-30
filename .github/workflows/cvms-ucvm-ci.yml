@@ -48,10 +48,10 @@ jobs:
       run: (rm -rf $RUNNER_WORKSPACE/cvms/ucvm/work/model/cvms)
       shell: bash
 ### build cvms from github 
-    - name: checkout cvms dev
+    - name: checkout cvms main
       uses: actions/checkout@v2
       with: 
-        ref: dev
+        ref: main
         path: cvms
     - name: move it to the right location
       run: (mv cvms $RUNNER_WORKSPACE/cvms/ucvm/work/model; pwd; ls)
@@ -106,10 +106,10 @@ jobs:
       run: (rm -rf $RUNNER_WORKSPACE/cvms/ucvm/work/model/cvms)
       shell: bash
 ### build cvms from github 
-    - name: checkout cvms dev
+    - name: checkout cvms main 
       uses: actions/checkout@v2
       with: 
-        ref: dev
+        ref: main
         path: cvms
     - name: move it to the right location
       run: (mv cvms $RUNNER_WORKSPACE/cvms/ucvm/work/model; pwd; ls)

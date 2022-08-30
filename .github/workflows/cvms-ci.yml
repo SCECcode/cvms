@@ -15,10 +15,10 @@ jobs:
       run: echo "UCVM_SRC_PATH=$RUNNER_WORKSPACE/ucvm" >> $GITHUB_ENV
     - name: set UCVM_INSTALL_PATH 
       run: echo "UCVM_INSTALL_PATH=$RUNNER_WORKSPACE/target" >> $GITHUB_ENV
-    - name: checkout cvms dev
+    - name: checkout cvms main
       uses: actions/checkout@v2
       with: 
-        ref: dev
+        ref: main
     - name: build cvms 
       run: ./.github/scripts/cvms-build.sh 
       shell: bash
@@ -36,10 +36,10 @@ jobs:
       run: echo "UCVM_SRC_PATH=$RUNNER_WORKSPACE/ucvm" >> $GITHUB_ENV
     - name: set UCVM_INSTALL_PATH 
       run: echo "UCVM_INSTALL_PATH=$RUNNER_WORKSPACE/target" >> $GITHUB_ENV
-    - name: checkout cvms dev
+    - name: checkout cvms main
       uses: actions/checkout@v2
       with: 
-        ref: dev
+        ref: main 
     - name: build cvms
       run: ./.github/scripts/cvms-build.sh
       shell: bash
