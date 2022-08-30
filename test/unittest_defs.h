@@ -8,10 +8,11 @@
 #define True 1
 #define False 0
 
-#define MAX_TEST_NAME 32
+#define MAX_TEST_NAME 100 
 
 // Location of binaries
 #define BIN_DIR "../src"
+#define MODEL_DIR "../data/s"
 
 /* Test  datatype */
 typedef struct test_t {

@@ -1,0 +1,32 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "SCEC SCEC"
+  given-names: ""
+keywords: UCVM, research
+license: BSD-3-Clause
+repository-code: "https://github.com/SCECcode/cvms.git"
+title: "Southern California Velocity Model with geotechnical layer(cvms)"
+version: 3.0
+type: software
+date-released: 2022-03-31
+repository-code: "https://github.com/SCECcode/cvms.git"
+contact:
+  - email: software@scec.org
+    name: "The SCEC Software project cvms"
+references:
+  - authors:
+      - family-names: "Kohler"
+        given-names: "M."
+      - family-names: "Mistrale"
+        given-names: "H."
+      - family-names: "Clayton"
+        given-names: "R."
+    keywords: CVM, velocity models, deep-focus earthquakes, three-dimensional models, seismic waves, ground motion
+    scope: "Cite this paper if you want to reference the model"
+    title: "Mantle heterogeneities and the SCEC three-dimensional seismic velocity model version 3"
+    journal: "Bulletin of the Seismological Society of America"
+    year: 2003
+    volume: 93
+    start: 757
+    end: 744

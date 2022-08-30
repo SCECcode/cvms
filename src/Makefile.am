@@ -1,15 +1,19 @@
 # Autoconf/Automake binaries and headers
 lib_LIBRARIES = libcvms.a
-bin_PROGRAMS = cvms_txt cvms_bin
+bin_PROGRAMS = cvms_query cvms_txt cvms_bin
 
 # General compiler/linker flags
 AM_CFLAGS = ${CFLAGS} -fPIC
-AM_LDFLAGS = ${LDFLAGS}
+AM_LDFLAGS = ${LDFLAGS} -lm -lgfortran
 AM_FCFLAGS = ${FCFLAGS} -fPIC
+#AM_FCFLAGS = -fcheck=all -Wall -g -fbacktrace ${FCFLAGS} -fPIC
 
-TARGETS = cvms_txt cvms_bin libcvms.a libcvms.so
+TARGETS = cvms_query cvms_txt cvms_bin libcvms.a libcvms.so
 
 all: $(bin_PROGRAMS) $(lib_LIBRARIES) libcvms.so
+
+cvms_query : cvms_query.o libcvms.a
+	$(FC) -o $@ $^ $(AM_LDFLAGS)
 
 cvms_txt: cvms_main.f cvms_sub.f iotxt.f
 	$(FC) $(AM_FCFLAGS) $^ -o $@
@@ -20,14 +24,21 @@ cvms_bin: cvms_main.f cvms_sub.f iobin.f
 cvms_mpi: cvms_main.f cvms_sub.f iompi.f
 	$(FC) $(AM_FCFLAGS) $^ -o $@
 
-libcvms.a: cvms_sub.o
+libcvms.a: cvms_sub.o cvms_static.o
 	$(AR) rcs $@ $^
 
-libcvms.so: cvms_sub.o
+libcvms.so: cvms_sub.o cvms.o
 	$(FC) -shared $(AM_CFLAGS) -o libcvms.so $^
 	
 cvms_sub.o: cvms_sub.f
 	$(FC) $(AM_FCFLAGS) -o $@ -c $^
+
+cvms.o: cvms.c
+	$(CC) -fPIC -DDYNAMIC_LIBRARY -o $@ -c $^ $(AM_CFLAGS)
+
+cvms_static.o: cvms.c
+	$(CC) -o $@ -c $^ $(AM_CFLAGS)
+
 
 install: all
 	mkdir -p ${prefix}
@@ -40,4 +51,4 @@ install: all
 	find ./* -maxdepth 0 ! -name libcvms.a ! -name '*.f' ! -name '*.o' ! -name 'Makefile*' ! -exec cp '{}' '${prefix}/src' \;
 
 clean:
-	rm -rf *.o *~ cvms_txt cvms_bin cvms_mpi *.a
+	rm -rf *.o *~ cvms_query cvms_txt cvms_bin cvms_mpi *.a

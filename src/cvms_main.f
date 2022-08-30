@@ -34,8 +34,20 @@ c
          character(128) modelpath
          character(64) version
          integer ecode
+         character(128) str1
+         character(128) datapath
 
-         modelpath= TRIM('.')//achar(0)
+         icount = iargc()  
+         if ( icount.eq.1 ) then
+           call getarg(0, str1)
+           call getarg(1, datapath)
+           modelpath= TRIM(datapath)//achar(0)
+         else
+           modelpath= TRIM('.')//achar(0)
+         endif
+
+c        write( 0, * )'modelpath>>',modelpath
+
          ecode = 0
          version=''
 
@@ -45,7 +57,7 @@ c--display version-------------------------------------
             write(*,*)' error retrieving version '
             goto 98
          endif
-         write( 0, * )'SCEC CVM-S ',version
+c         write( 0, * )'SCEC CVM-S ',version
 
 c--read points of interest file-------------------------
          call readpts(kerr)

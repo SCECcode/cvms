@@ -1,0 +1,49 @@
+name: cvms-ci
+
+on:
+  push:
+    branches: [ dev ]
+
+jobs:
+  cvms-build-standalone-mac:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        python-version: [3.7]
+    steps:
+    - name: set UCVM_SRC_PATH 
+      run: echo "UCVM_SRC_PATH=$RUNNER_WORKSPACE/ucvm" >> $GITHUB_ENV
+    - name: set UCVM_INSTALL_PATH 
+      run: echo "UCVM_INSTALL_PATH=$RUNNER_WORKSPACE/target" >> $GITHUB_ENV
+    - name: checkout cvms dev
+      uses: actions/checkout@v2
+      with: 
+        ref: dev
+    - name: build cvms 
+      run: ./.github/scripts/cvms-build.sh 
+      shell: bash
+    - name: test cvms standalone
+      run: ./.github/scripts/cvms-test-standalone.sh
+      shell: bash
+
+  cvms-build-standalone-linux:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.7]
+    steps:
+    - name: set UCVM_SRC_PATH 
+      run: echo "UCVM_SRC_PATH=$RUNNER_WORKSPACE/ucvm" >> $GITHUB_ENV
+    - name: set UCVM_INSTALL_PATH 
+      run: echo "UCVM_INSTALL_PATH=$RUNNER_WORKSPACE/target" >> $GITHUB_ENV
+    - name: checkout cvms dev
+      uses: actions/checkout@v2
+      with: 
+        ref: dev
+    - name: build cvms
+      run: ./.github/scripts/cvms-build.sh
+      shell: bash
+    - name: test cvms standalone
+      run: ./.github/scripts/cvms-test-standalone.sh
+      shell: bash
+
