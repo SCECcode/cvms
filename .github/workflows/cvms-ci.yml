@@ -2,7 +2,7 @@ name: cvms-ci
 
 on:
   push:
-    branches: [ dev ]
+    branches: [ main ]
 
 jobs:
   cvms-build-standalone-mac:
