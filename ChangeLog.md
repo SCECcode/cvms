@@ -1,3 +1,6 @@
+## July 2022 Mei-Hui Su <mei@usc.edu>
+* Merge ci with github runner into main branch
+
 ## March 2022  Mei-Hui Su <mei@usc.edu>
 * Rework into a plug-in model for UCVM 
 * Restructure data and src into separate directory
