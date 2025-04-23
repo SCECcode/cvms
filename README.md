@@ -9,7 +9,6 @@
 
 
 The Southern California Velocity Model developed by SCEC, Caltech and USGS with geotechnical layer
-2011/07/21
 
 
 ## Installation
