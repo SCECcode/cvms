@@ -27,8 +27,9 @@ jobs:
       with:
          initiating-repo: 'cvms'
          target-model: 'cvms'
+         target-branch: 'testMei'
     - id: get-result
-      run: more ${{ steps.build-ucvm.outputs.build-log }}
+      run: more ${{ steps.build-ucvm-action.outputs.build-log }}
       shell: bash
     - name: move stock cvms away
       run: (rm -rf $RUNNER_WORKSPACE/cvms/ucvm/work/model/cvms)
