@@ -4,7 +4,6 @@
 
 [![License](https://img.shields.io/badge/License-BSD_3--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 ![GitHub repo size](https://img.shields.io/github/repo-size/sceccode/cvms)
-[![cvms-ci Actions Status](https://github.com/SCECcode/cvms/workflows/cvms-ci/badge.svg)](https://github.com/SCECcode/cvms/actions)
 [![cvms-ucvm-ci Actions Status](https://github.com/SCECcode/cvms/workflows/cvms-ucvm-ci/badge.svg)](https://github.com/SCECcode/cvms/actions)
 
 
@@ -32,7 +31,7 @@ To install this package on your computer, please run the following commands:
 <pre>
   aclocal
   autoconf
-  automake --add-missing
+  automake --add-missing --force-missing
   ./configure --prefix=/dir/to/install
   make
   make install

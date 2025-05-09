@@ -9,11 +9,8 @@ if [ $tmp == 'Darwin' ]; then
 fi
 
 aclocal
-automake --add-missing
+automake --add-missing --force-missing
 autoconf
-cd data
-./make_data_files.py
-cd ..
 ./configure --prefix=$UCVM_INSTALL_PATH/model/cvms
 make
 make install
