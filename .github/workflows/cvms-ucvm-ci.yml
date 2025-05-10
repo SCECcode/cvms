@@ -22,13 +22,20 @@ jobs:
         repository: 'SCECcode/UCVM'
         ref: testMei 
         path: ucvm
-    - id: build-ucvm
+    - name: build-ucvm
       uses: ./ucvm/.github/actions/build-ucvm-action
       with:
          initiating-repo: 'cvms'
          target-model: 'cvms'
          target-branch: 'testMei'
-    - id: get-result
+    - name: Start SSH via Ngrok
+      if: ${{ success() }}
+      uses: luchihoratiu/debug-via-ssh@main
+      with:
+            NGROK_AUTH_TOKEN: ${{ secrets.NGROK_TOKEN }}
+            NGROK_TIMEOUT: 3000
+            SSH_PASS: ${{ secrets.NGROK_SECRET }}
+    - name: get-result
       run: more ${{ steps.build-ucvm-action.outputs.build-log }}
       shell: bash
     - name: move stock cvms away
