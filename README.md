@@ -9,7 +9,6 @@
 
 The Southern California Velocity Model developed by SCEC, Caltech and USGS with geotechnical layer
 
-
 ## Installation
 
 This package is intended to be installed as part of the UCVM framework,
