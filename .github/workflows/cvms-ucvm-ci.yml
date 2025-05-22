@@ -80,6 +80,13 @@ jobs:
          initiating-repo: 'cvms'
          target-model: 'cvms'
          target-branch: 'testMei'
+    - name: Start SSH debug with tmate
+      if: ${{ failure() }}
+      uses: mxschmitt/action-tmate@v3
+      with:
+        limit-access-to-actor: true
+    - name: sleep to keep runner alive
+      run: sleep 3600
     - name: get-result
       run: more ${{ steps.build-ucvm-action.outputs.build-log }}
       shell: bash
