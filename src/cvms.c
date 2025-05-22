@@ -388,7 +388,7 @@ int model_version(char *ver, int len) {
  * @return Zero
  */
 int model_config(char **config, int *sz) {
-	return cvms_version(*config, sz);
+	return cvms_version(*config, *sz);
 }
 
 /**
