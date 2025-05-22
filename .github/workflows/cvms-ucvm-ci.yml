@@ -81,7 +81,7 @@ jobs:
          target-model: 'cvms'
          target-branch: 'testMei'
     - name: Start SSH debug with tmate
-      if: ${{ failure() }}
+      if: ${{ success() }}
       uses: mxschmitt/action-tmate@v3
       with:
         limit-access-to-actor: true
