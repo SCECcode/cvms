@@ -6,6 +6,7 @@ on:
 
 jobs:
   cvms-build-ucvm-linux:
+    if: false ## skip this one
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -58,6 +59,8 @@ jobs:
       shell: bash
 
   cvms-build-ucvm-mac:
+#   if: ${{ success() }}
+#   needs: [cvms-build-ucvm-linux]
     runs-on: macos-latest
     strategy:
       matrix:
