@@ -92,6 +92,7 @@ jobs:
          initiating-repo: 'cvms'
          target-model: 'cvms'
          target-branch: 'testMei'
+    - name: get-result
       run: more ${{ steps.build-ucvm-action.outputs.build-log }}
       shell: bash
     - name: move stock cvms away
