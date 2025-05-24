@@ -39,9 +39,9 @@ int test_cvms_txt()
   sprintf(infile, "%s/%s", currentdir, "./inputs/test-grid.in");
   sprintf(outfile, "%s/%s", currentdir, "test-grid.out");
   if(isMacOS) {
-    sprintf(reffile, "%s/%s", currentdir, "./ref/test-grid-extract.ref");
+    sprintf(reffile, "%s/%s", currentdir, "./ref/test-grid-extract-macos.ref");
     } else {
-      sprintf(reffile, "%s/%s", currentdir, "./ref/test-grid-extract-macos.ref");
+      sprintf(reffile, "%s/%s", currentdir, "./ref/test-grid-extract.ref");
   }
 
   if (test_assert_int(runCVMSTxt(BIN_DIR, infile, outfile), 0) != 0) {
