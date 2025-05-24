@@ -117,6 +117,5 @@ jobs:
       run: (cd $RUNNER_WORKSPACE/cvms/ucvm/work/model/cvms; source $UCVM_INSTALL_PATH/conf/ucvm_env.sh; ./.github/scripts/cvms-test-ucvm.sh)
       shell: bash
     - name: test cvms under ucvm
-      if: ${{ failure() }}
       run: (cd $RUNNER_WORKSPACE/cvms/ucvm; source $UCVM_INSTALL_PATH/conf/ucvm_env.sh; ./.github/scripts/ucvm-test.sh)
       shell: bash

@@ -16,6 +16,12 @@
 #include "test_helper.h"
 #include "test_grid_exec.h"
 
+#if defined(__APPLE__) && defined(__MACH__)
+int isMacOS=true;
+#elif defined(unix) || defined(__unix__) || defined(__unix)
+int isMacOS=false;
+#endif
+
 int CVMS_GRID_TESTS=2;
 
 int test_cvms_txt()
@@ -32,7 +38,11 @@ int test_cvms_txt()
 
   sprintf(infile, "%s/%s", currentdir, "./inputs/test-grid.in");
   sprintf(outfile, "%s/%s", currentdir, "test-grid.out");
-  sprintf(reffile, "%s/%s", currentdir, "./ref/test-grid-extract.ref");
+  if(isMacOS) {
+    sprintf(reffile, "%s/%s", currentdir, "./ref/test-grid-extract.ref");
+    } else {
+      sprintf(reffile, "%s/%s", currentdir, "./ref/test-grid-extract-macos.ref");
+  }
 
   if (test_assert_int(runCVMSTxt(BIN_DIR, infile, outfile), 0) != 0) {
     printf("cvm_txt failure\n");
