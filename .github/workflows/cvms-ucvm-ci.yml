@@ -6,7 +6,6 @@ on:
 
 jobs:
   cvms-build-ucvm-linux:
-    if: false ## skip this one
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -58,9 +57,19 @@ jobs:
       run: (cd $RUNNER_WORKSPACE/cvms/ucvm; source $UCVM_INSTALL_PATH/conf/ucvm_env.sh; ./.github/scripts/ucvm-test.sh)
       shell: bash
 
+##Test: model with large grid
+## diff /Users/runner/work/cvms/cvms/ucvm/work/model/cvms/test/test-grid.out /Users/runner/work/cvms/cvms/ucvm/work/model/cvms/test/./ref/test-grid-extract.ref
+## 20119c20119
+## < 34.60000 -117.30000   1000.00   4762.1   2881.9   2616.9
+## ---
+## > 34.60000 -117.30000   1000.00   4762.0   2881.9   2616.9
+## out of 43k entries
+## bash-3.2$ wc /Users/runner/work/cvms/cvms/ucvm/work/model/cvms/test/test-grid.out
+## 43736  262416 2492952 /Users/runner/work/cvms/cvms/ucvm/work/model/cvms/test/test-grid.out
+##
   cvms-build-ucvm-mac:
-#   if: ${{ success() }}
-#   needs: [cvms-build-ucvm-linux]
+    if: ${{ success() }}
+    needs: [cvms-build-ucvm-linux]
     runs-on: macos-latest
     strategy:
       matrix:
@@ -83,14 +92,6 @@ jobs:
          initiating-repo: 'cvms'
          target-model: 'cvms'
          target-branch: 'testMei'
-    - name: Start SSH debug with tmate
-      if: ${{ success() }}
-      uses: mxschmitt/action-tmate@v3
-      with:
-        limit-access-to-actor: true
-    - name: sleep to keep runner alive
-      run: sleep 3600
-    - name: get-result
       run: more ${{ steps.build-ucvm-action.outputs.build-log }}
       shell: bash
     - name: move stock cvms away
@@ -116,5 +117,6 @@ jobs:
       run: (cd $RUNNER_WORKSPACE/cvms/ucvm/work/model/cvms; source $UCVM_INSTALL_PATH/conf/ucvm_env.sh; ./.github/scripts/cvms-test-ucvm.sh)
       shell: bash
     - name: test cvms under ucvm
+      if: ${{ failure() }}
       run: (cd $RUNNER_WORKSPACE/cvms/ucvm; source $UCVM_INSTALL_PATH/conf/ucvm_env.sh; ./.github/scripts/ucvm-test.sh)
       shell: bash
