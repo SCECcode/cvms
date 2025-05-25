@@ -17,9 +17,9 @@
 #include "test_grid_exec.h"
 
 #if defined(__APPLE__) && defined(__MACH__)
-int isMacOS=true;
+int isMacOS=True;
 #elif defined(unix) || defined(__unix__) || defined(__unix)
-int isMacOS=false;
+int isMacOS=False;
 #endif
 
 int CVMS_GRID_TESTS=2;
