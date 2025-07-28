@@ -6,8 +6,11 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/sceccode/cvms)
 [![cvms-ucvm-ci Actions Status](https://github.com/SCECcode/cvms/workflows/cvms-ucvm-ci/badge.svg)](https://github.com/SCECcode/cvms/actions)
 
-
 The Southern California Velocity Model developed by SCEC, Caltech and USGS with geotechnical layer
+
+CVM-S4 is a three-dimensional (3D) seismic velocity model of southern California developed by the Southern California Earthquake Center. The model consists of detailed, rule-based representations of the major southern California basins (Los Angeles basin, Ventura basin, San Gabriel Valley, San Fernando Valley, Chino basin, San Bernardino Valley, and the Salton Trough), embedded in a 3D crust over a variable depth Moho. Outside of the basins, the model crust is based on regional tomographic results. The model Moho is represented by a surface with the depths determined by the receiver function technique. Shallow basin sediment velocities are constrained by geotechnical data. CVM-S4 updates earlier versions of the model by determine upper mantle seismic velocity heterogeneities below Southern California from the inversion of teleseismic travel-time residuals. Teleseismic P-wave arrival times are obtained from three temporary passive experiments and Southern California Seismic Network (SCSN) stations, producing good raypath coverage. The inversion model element spacing is 20 km. S-wave velocities are determined from laboratory Vp/Vs ratios. The most prominent features imaged in the results are high P-wave velocities (+3%) in the uppermost mantle beneath the northern Los Angeles basin, and high-velocity anomaly (+3%) to depths of 200 km beneath the Transverse Ranges, crosscutting the San Andreas fault. It incorporates the upper mantle seismic velocity heterogeneities into the SCEC Southern California reference seismic velocity model.
+
+Kohler, MD, Magistrale, H, Clayton, RW (2003) Mantle heterogeneities and the SCEC ref three-dimensional seismic velocity model version 3. Bulletin of the Seismological Society of America 93(2): 757–774
 
 ## Installation
 
