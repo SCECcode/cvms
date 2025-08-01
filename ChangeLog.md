@@ -1,3 +1,6 @@
+## July 2025 Mei-Hui Su <mei@usc.edu>
+* v1.0 with UCVM v25.7
+
 ## July 2022 Mei-Hui Su <mei@usc.edu>
 * Merge ci with github runner into main branch
 
